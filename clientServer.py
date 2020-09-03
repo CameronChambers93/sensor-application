@@ -4,7 +4,7 @@ from flask import jsonify
 from flask_sqlalchemy import sqlalchemy
 from sqlalchemy import Table, Column, Integer, String, ForeignKey, Numeric, DateTime, and_, select, between, desc
 import psycopg2
-from config import config, settings, saveSettings
+from config import config, settings, saveSettings, saveGroupSettings
 import datetime
 import pdb
 import time
@@ -106,14 +106,15 @@ def getSettings():
 @app.route('/set_settings', methods=['POST'])
 @cross_origin()		#remove on deployment
 def setSettings():
-    pdb.set_trace()
     newSettings = request.json['data']
-    if newSettings['ip'] != 'localhost':
-        url = 'http://' + newSettings['ip'] + ':5000/save_settings'
+    if newSettings['ip'] == 'localhost':
+        saveSettings(newSettings)
+    else:
+        url = 'http://' + newSettings['ip'] + ':5001/save_settings'
         r = requests.post(url, json=newSettings)
     _settings = settings()
     for i in range(len(_settings)):
         if _settings[i]['device_name'] == newSettings['device_name']:
             _settings[i] = newSettings
-    saveSettings(_settings)
+    saveGroupSettings(_settings)
     return jsonify(_settings)

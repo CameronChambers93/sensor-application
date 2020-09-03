@@ -25,8 +25,7 @@ app = Flask(__name__)
 @app.route('/save_settings', methods=['POST'])
 #@cross_origin()
 def save_settings():
-    pdb.set_trace()
     newSettings = request.json
     saveSettings(newSettings)
-    os.system('sudo systemctl restart sensorserver')
+    os.system('sudo systemctl restart sensor.controller.service')
     return "Success"
