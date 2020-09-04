@@ -5,7 +5,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       "/": {
-         target: "24.127.94.72",
+         target: "",
          secure: false
       }
     }
