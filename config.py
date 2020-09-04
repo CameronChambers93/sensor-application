@@ -43,9 +43,11 @@ def settings(filename='groupSettings.ini'):
     return obj
 
 def saveSettings(data, filename='settings.ini'):
-    with open('groupSettings.ini', 'w') as file:
+    with open(filename, 'w') as file:
         json.dump(data, file)
 
+def saveGroupSettings(data):
+    saveSettings(data, filename='groupSettings.ini')
 
 def getSensors(DATA_QUEUE_SIZE):
     with open('settings.ini', 'r') as file:
